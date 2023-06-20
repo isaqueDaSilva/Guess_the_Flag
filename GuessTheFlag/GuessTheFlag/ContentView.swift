@@ -8,19 +8,38 @@
 import SwiftUI
 
 struct ContentView: View {
-    @State private var showingAlert = false
+    var correctAnswer = Int.random(in: 0...2)
     var body: some View {
-        Button("Show Alert of Battery") {
-            showingAlert = true
-        } .alert("Low Battery", isPresented: $showingAlert) {
-            VStack{
-                Button("Low-Power Mode") { }
-                Button("Close") { }
+        ZStack {
+            LinearGradient(gradient: Gradient(stops: [
+                Gradient.Stop(color: .blue, location: 0.35),
+                Gradient.Stop(color: .cyan, location: 0.65)
+            ]), startPoint: .top, endPoint: .bottom)
+            .ignoresSafeArea()
+            
+            VStack(spacing: 30) {
+                VStack {
+                    Text("What's the Flag of \(Countries.allCases[correctAnswer].rawValue)?")
+                        .font(.title2)
+                        .fontWeight(.bold)
+                        .foregroundColor(.white)
+                }
+                
+                ForEach(0..<3) { number in
+                    Button {
+                        
+                    } label: {
+                        Image(Countries.allCases[number].rawValue)
+                            .renderingMode(.original)
+                    }
+                }
             }
-        } message: {
-            Text("20% battery charge left.")
         }
     }
+}
+
+enum Countries: String, CaseIterable {
+    case Estonia, France, Germany, Ireland, Italy, Monaco, Nigeria, Poland, Russia, Spain, UK, US
 }
 
 struct ContentView_Previews: PreviewProvider {
