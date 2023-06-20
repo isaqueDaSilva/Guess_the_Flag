@@ -8,7 +8,13 @@
 import SwiftUI
 
 struct ContentView: View {
-    var correctAnswer = Int.random(in: 0...2)
+    @State private var showingScore = false
+    @State private var scoreTitle = ""
+    @State private var scoreNumber = 0
+    
+    @State private var countries = ["Estonia", "France", "Germany", "Ireland", "Italy", "Monaco", "Nigeria", "Poland", "Russia", "Spain", "UK", "US"].shuffled()
+    @State private var correctAnswer = Int.random(in: 0...2)
+    
     var body: some View {
         ZStack {
             LinearGradient(gradient: Gradient(stops: [
@@ -19,7 +25,7 @@ struct ContentView: View {
             
             VStack(spacing: 30) {
                 VStack {
-                    Text("What's the Flag of \(Countries.allCases[correctAnswer].rawValue)?")
+                    Text("What's the Flag of \(countries[correctAnswer])?")
                         .font(.title2)
                         .fontWeight(.bold)
                         .foregroundColor(.white)
@@ -27,19 +33,36 @@ struct ContentView: View {
                 
                 ForEach(0..<3) { number in
                     Button {
-                        
+                        flagTapped(number)
+                        showingScore = true
                     } label: {
-                        Image(Countries.allCases[number].rawValue)
+                        Image(countries[number])
                             .renderingMode(.original)
+                            .cornerRadius(10)
+                            .shadow(radius: 15)
                     }
                 }
             }
+        }.alert(scoreTitle, isPresented: $showingScore) {
+            Button("Continue", action: askQuestion)
+        } message: {
+            Text("Your Score is \(scoreNumber)")
         }
     }
-}
-
-enum Countries: String, CaseIterable {
-    case Estonia, France, Germany, Ireland, Italy, Monaco, Nigeria, Poland, Russia, Spain, UK, US
+    
+    func flagTapped(_ number: Int) {
+        if number == correctAnswer {
+            scoreTitle = "Correct"
+            scoreNumber += 5
+        } else {
+            scoreTitle = "Wrong"
+        }
+    }
+    
+    func askQuestion() {
+        countries.shuffle()
+        correctAnswer = Int.random(in: 0...2)
+    }
 }
 
 struct ContentView_Previews: PreviewProvider {
