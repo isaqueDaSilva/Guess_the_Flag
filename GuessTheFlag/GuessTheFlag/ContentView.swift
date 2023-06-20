@@ -8,9 +8,18 @@
 import SwiftUI
 
 struct ContentView: View {
+    @State private var showingAlert = false
     var body: some View {
-        AngularGradient(colors: [.blue, .green, .pink, .gray, .yellow, .orange, .purple], center: .center)
-            .ignoresSafeArea()
+        Button("Show Alert of Battery") {
+            showingAlert = true
+        } .alert("Low Battery", isPresented: $showingAlert) {
+            VStack{
+                Button("Low-Power Mode") { }
+                Button("Close") { }
+            }
+        } message: {
+            Text("20% battery charge left.")
+        }
     }
 }
 
