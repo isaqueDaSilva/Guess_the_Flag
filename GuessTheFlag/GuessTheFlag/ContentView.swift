@@ -23,25 +23,38 @@ struct ContentView: View {
             ]), startPoint: .top, endPoint: .bottom)
             .ignoresSafeArea()
             
-            VStack(spacing: 30) {
-                VStack {
-                    Text("What's the Flag of \(countries[correctAnswer])?")
-                        .font(.title2)
-                        .fontWeight(.bold)
-                        .foregroundColor(.white)
-                }
+            VStack {
+                Spacer()
                 
-                ForEach(0..<3) { number in
-                    Button {
-                        flagTapped(number)
-                        showingScore = true
-                    } label: {
-                        Image(countries[number])
-                            .renderingMode(.original)
-                            .cornerRadius(10)
-                            .shadow(radius: 15)
+                Text("Guess the Flag")
+                
+                VStack(spacing: 30) {
+                    VStack {
+                        Text("What's the Flag of \(countries[correctAnswer])?")
+                            .font(.title2)
+                            .fontWeight(.bold)
+                            .foregroundColor(.white)
+                    }
+                    
+                    ForEach(0..<3) { number in
+                        Button {
+                            flagTapped(number)
+                            showingScore = true
+                        } label: {
+                            Image(countries[number])
+                                .renderingMode(.original)
+                                .cornerRadius(10)
+                                .shadow(radius: 15)
+                        }
                     }
                 }
+                
+                Spacer()
+                Spacer()
+                
+                Text("Score: \(scoreNumber)")
+                
+                Spacer()
             }
         }.alert(scoreTitle, isPresented: $showingScore) {
             Button("Continue", action: askQuestion)
