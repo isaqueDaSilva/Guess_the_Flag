@@ -77,16 +77,28 @@ struct ContentView: View {
         }.alert(scoreTitle, isPresented: $showingScore) {
             Button("Continue", action: askQuestion)
         } message: {
-            Text("Your Score is \(scoreNumber)")
+            if round < 10 {
+                Text("Your Score is \(scoreNumber)")
+            } else {
+                Text("Your Final Score is \(scoreNumber)")
+            }
         }
     }
     
     func flagTapped(_ number: Int) {
-        if number == correctAnswer {
-            scoreTitle = "Correct"
-            scoreNumber += 5
+        if round < 10 {
+            if number == correctAnswer {
+                scoreTitle = "Correct"
+                scoreNumber += 5
+                round += 1
+            } else {
+                scoreTitle = "Wrong"
+                round += 1
+            }
         } else {
-            scoreTitle = "Wrong"
+            scoreTitle = "Final Score"
+            round = 1
+            scoreNumber = 0
         }
     }
     
