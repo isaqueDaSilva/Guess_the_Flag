@@ -11,6 +11,7 @@ struct ContentView: View {
     @State private var showingScore = false
     @State private var scoreTitle = ""
     @State private var scoreNumber = 0
+    @State private var round = 1
     
     @State private var countries = ["Estonia", "France", "Germany", "Ireland", "Italy", "Monaco", "Nigeria", "Poland", "Russia", "Spain", "UK", "US"].shuffled()
     @State private var correctAnswer = Int.random(in: 0...2)
@@ -18,7 +19,7 @@ struct ContentView: View {
     var body: some View {
         ZStack {
             LinearGradient(gradient: Gradient(stops: [
-                Gradient.Stop(color: .blue, location: 0.35),
+                Gradient.Stop(color: .red, location: 0.35),
                 Gradient.Stop(color: .cyan, location: 0.65)
             ]), startPoint: .top, endPoint: .bottom)
             .ignoresSafeArea()
@@ -27,13 +28,16 @@ struct ContentView: View {
                 Spacer()
                 
                 Text("Guess the Flag")
+                    .font(.largeTitle.bold())
+                    .foregroundColor(.black)
+                
+                Spacer()
+                Spacer()
                 
                 VStack(spacing: 30) {
                     VStack {
                         Text("What's the Flag of \(countries[correctAnswer])?")
-                            .font(.title2)
-                            .fontWeight(.bold)
-                            .foregroundColor(.white)
+                            .font(.title2.bold())
                     }
                     
                     ForEach(0..<3) { number in
@@ -48,14 +52,28 @@ struct ContentView: View {
                         }
                     }
                 }
+                .frame(maxWidth: .infinity)
+                .padding(.vertical, 20)
+                .background(.thinMaterial)
+                .cornerRadius(20)
+                .shadow(radius: 15)
+                
+                Spacer()
+                
+                HStack{
+                    Text("Round \(round)")
+                        .font(.title2.bold())
+                        .foregroundColor(.black)
+                    Spacer()
+                    Text("Score: \(scoreNumber)")
+                        .font(.title2.bold())
+                        .foregroundColor(.black)
+                }.padding()
                 
                 Spacer()
                 Spacer()
                 
-                Text("Score: \(scoreNumber)")
-                
-                Spacer()
-            }
+            }.padding()
         }.alert(scoreTitle, isPresented: $showingScore) {
             Button("Continue", action: askQuestion)
         } message: {
