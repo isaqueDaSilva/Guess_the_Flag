@@ -21,90 +21,43 @@ struct ContentView: View {
             LinearGradient(gradient: Gradient(stops: [
                 Gradient.Stop(color: .red, location: 0.35),
                 Gradient.Stop(color: .cyan, location: 0.65)
-            ]), startPoint: .top, endPoint: .bottom)
-            .ignoresSafeArea()
+            ]), startPoint: .top, endPoint: .bottom).ignoresSafeArea()
             
             VStack {
                 Spacer()
-                
                 Text("Guess the Flag")
                     .font(.largeTitle.bold())
-                    .foregroundColor(.black)
-                
                 Spacer()
-                Spacer()
-                
-                VStack(spacing: 30) {
-                    VStack {
-                        Text("What's the Flag of \(countries[correctAnswer])?")
-                            .font(.title2.bold())
-                    }
-                    
+                VStack(spacing: 20){
+                    Text("What's the Flag of \(countries[correctAnswer])?")
+                        .font(.title2.bold())
                     ForEach(0..<3) { number in
-                        Button {
-                            flagTapped(number)
-                            showingScore = true
-                        } label: {
+                        Button(action: {
+                            
+                        }, label: {
                             Image(countries[number])
                                 .renderingMode(.original)
                                 .cornerRadius(10)
-                                .shadow(radius: 15)
-                        }
+                                .shadow(radius: 20)
+                        })
                     }
                 }
                 .frame(maxWidth: .infinity)
                 .padding(.vertical, 20)
                 .background(.thinMaterial)
                 .cornerRadius(20)
-                .shadow(radius: 15)
-                
+                .shadow(radius: 20)
                 Spacer()
-                
-                HStack{
+                HStack {
                     Text("Round \(round)")
                         .font(.title2.bold())
-                        .foregroundColor(.black)
                     Spacer()
                     Text("Score: \(scoreNumber)")
                         .font(.title2.bold())
-                        .foregroundColor(.black)
-                }.padding()
-                
+                } .padding()
                 Spacer()
-                Spacer()
-                
             }.padding()
-        }.alert(scoreTitle, isPresented: $showingScore) {
-            Button("Continue", action: askQuestion)
-        } message: {
-            if round < 10 {
-                Text("Your Score is \(scoreNumber)")
-            } else {
-                Text("Your Final Score is \(scoreNumber)")
-            }
         }
-    }
-    
-    func flagTapped(_ number: Int) {
-        if round < 10 {
-            if number == correctAnswer {
-                scoreTitle = "Correct"
-                scoreNumber += 5
-                round += 1
-            } else {
-                scoreTitle = "Wrong"
-                round += 1
-            }
-        } else {
-            scoreTitle = "Final Score"
-            round = 1
-            scoreNumber = 0
-        }
-    }
-    
-    func askQuestion() {
-        countries.shuffle()
-        correctAnswer = Int.random(in: 0...2)
     }
 }
 
