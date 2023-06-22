@@ -9,8 +9,8 @@ import SwiftUI
 
 struct ContentView: View {
     @State private var showingScore = false
-    @State private var endOfGame = false
     @State private var scoreTitle = ""
+    @State private var correctionMessage = ""
     @State private var scoreNumber = 0
     @State private var round = 1
     
@@ -61,7 +61,10 @@ struct ContentView: View {
             }.padding()
         }.alert(scoreTitle, isPresented: $showingScore) {
             if round < 10 {
-                Button("Continue", action: askTheQuestion)
+                Button("Continue", action: {
+                    askTheQuestion()
+                    round += 1
+                })
             } else if round == 10 {
                 Button("New Game", action: {
                     round = 1
@@ -69,7 +72,7 @@ struct ContentView: View {
                 })
             }
         } message: {
-            Text("Your Score is \(scoreNumber)")
+            Text(correctionMessage)
         }
     }
     
@@ -78,10 +81,10 @@ struct ContentView: View {
             if number == correctAnswer {
                 scoreNumber += 5
                 scoreTitle = "Correct"
-                round += 1
+                correctionMessage = "Your Score is \(scoreNumber)"
             } else {
                 scoreTitle = "Wrong"
-                round += 1
+                correctionMessage = "This Flag is from \(countries[number])"
             }
         } else if round == 10 {
             scoreTitle = "Final Score"
