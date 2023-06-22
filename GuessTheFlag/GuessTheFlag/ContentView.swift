@@ -88,6 +88,7 @@ struct ContentView: View {
             }
         } else if round == 10 {
             scoreTitle = "Final Score"
+            correctionMessage = "Your Final Score is \(scoreNumber)"
         }
     }
     
