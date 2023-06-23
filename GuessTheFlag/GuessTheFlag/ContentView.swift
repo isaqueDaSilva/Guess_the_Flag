@@ -7,6 +7,15 @@
 
 import SwiftUI
 
+struct TextModifier: View {
+    var text: String
+    
+    var body: some View {
+        Text(text)
+            .font(.title2.bold())
+    }
+}
+
 struct ContentView: View {
     @State private var showingScore = false
     @State private var scoreTitle = ""
@@ -30,8 +39,7 @@ struct ContentView: View {
                     .font(.largeTitle.bold())
                 Spacer()
                 VStack(spacing: 20){
-                    Text("What's the Flag of \(countries[correctAnswer])?")
-                        .font(.title2.bold())
+                    TextModifier(text: "What's the Flag of \(countries[correctAnswer])?")
                     ForEach(0..<3) { number in
                         Button(action: {
                             showingScore = true
@@ -51,11 +59,9 @@ struct ContentView: View {
                 .shadow(radius: 20)
                 Spacer()
                 HStack {
-                    Text("Round \(round)")
-                        .font(.title2.bold())
+                    TextModifier(text: "Round \(round)")
                     Spacer()
-                    Text("Score: \(scoreNumber)")
-                        .font(.title2.bold())
+                    TextModifier(text: "Score: \(scoreNumber)")
                 } .padding()
                 Spacer()
             }.padding()
