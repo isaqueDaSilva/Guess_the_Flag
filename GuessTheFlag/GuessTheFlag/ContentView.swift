@@ -115,6 +115,9 @@ struct ContentView: View {
                 correctionMessage = "This Flag is from \(countries[number])"
             }
         } else if round == 10 {
+            if scoreTitle == "Correct" {
+                scoreNumber += 5
+            }
             scoreTitle = "Final Score"
             correctionMessage = "Your Final Score is \(scoreNumber)"
         }
