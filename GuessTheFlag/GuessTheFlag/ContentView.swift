@@ -16,6 +16,17 @@ struct TextModifier: View {
     }
 }
 
+struct FlagImage: View {
+    var image: String
+    
+    var body: some View {
+        Image(image)
+            .renderingMode(.original)
+            .cornerRadius(10)
+            .shadow(radius: 20)
+    }
+}
+
 struct BackgroundModifier: ViewModifier {
     func body(content: Content) -> some View {
         content
@@ -62,10 +73,7 @@ struct ContentView: View {
                             showingScore = true
                             flagTapped(number)
                         }, label: {
-                            Image(countries[number])
-                                .renderingMode(.original)
-                                .cornerRadius(10)
-                                .shadow(radius: 20)
+                            FlagImage(image: countries[number])
                         })
                     }
                 }
