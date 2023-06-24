@@ -7,12 +7,23 @@
 
 import SwiftUI
 
-struct BodyText: View {
+struct BodyTextStyle: View {
     var text: String
     
     var body: some View {
         Text(text)
             .font(.title2.bold())
+    }
+}
+
+struct BackgroundModifier: ViewModifier {
+    func body(content: Content) -> some View {
+        content
+            .frame(maxWidth: .infinity)
+            .padding(.vertical, 20)
+            .background(.thinMaterial)
+            .cornerRadius(20)
+            .shadow(radius: 10)
     }
 }
 
@@ -27,20 +38,21 @@ struct FlagImage: View {
     }
 }
 
-struct BackgroundModifier: ViewModifier {
+struct TitleStyle: ViewModifier {
     func body(content: Content) -> some View {
         content
-            .frame(maxWidth: .infinity)
-            .padding(.vertical, 20)
-            .background(.thinMaterial)
-            .cornerRadius(20)
-            .shadow(radius: 20)
+            .font(.largeTitle.bold())
+            .foregroundColor(.blue)
     }
 }
 
 extension View {
     func Background() -> some View {
         modifier(BackgroundModifier())
+    }
+    
+    func titleStyle() -> some View {
+        modifier(TitleStyle())
     }
 }
 
@@ -57,17 +69,17 @@ struct ContentView: View {
     var body: some View {
         ZStack {
             LinearGradient(gradient: Gradient(stops: [
-                Gradient.Stop(color: .red, location: 0.35),
-                Gradient.Stop(color: .cyan, location: 0.65)
+                Gradient.Stop(color: .white, location: 0.4),
+                Gradient.Stop(color: .cyan, location: 0.6)
             ]), startPoint: .top, endPoint: .bottom).ignoresSafeArea()
             
             VStack {
                 Spacer()
                 Text("Guess the Flag")
-                    .font(.largeTitle.bold())
+                    .titleStyle()
                 Spacer()
                 VStack(spacing: 20){
-                    BodyText(text: "What's the Flag of \(countries[correctAnswer])?")
+                    BodyTextStyle(text: "What's the Flag of \(countries[correctAnswer])?")
                     ForEach(0..<3) { number in
                         Button(action: {
                             showingScore = true
@@ -81,9 +93,9 @@ struct ContentView: View {
                 
                 Spacer()
                 HStack {
-                    BodyText(text: "Round \(round)")
+                    BodyTextStyle(text: "Round \(round)")
                     Spacer()
-                    BodyText(text: "Score: \(scoreNumber)")
+                    BodyTextStyle(text: "Score: \(scoreNumber)")
                 } .padding()
                 Spacer()
             }.padding()
