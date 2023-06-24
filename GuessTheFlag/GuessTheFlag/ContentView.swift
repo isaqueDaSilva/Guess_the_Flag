@@ -16,6 +16,23 @@ struct TextModifier: View {
     }
 }
 
+struct BackgroundModifier: ViewModifier {
+    func body(content: Content) -> some View {
+        content
+            .frame(maxWidth: .infinity)
+            .padding(.vertical, 20)
+            .background(.thinMaterial)
+            .cornerRadius(20)
+            .shadow(radius: 20)
+    }
+}
+
+extension View {
+    func Background() -> some View {
+        modifier(BackgroundModifier())
+    }
+}
+
 struct ContentView: View {
     @State private var showingScore = false
     @State private var scoreTitle = ""
@@ -52,11 +69,8 @@ struct ContentView: View {
                         })
                     }
                 }
-                .frame(maxWidth: .infinity)
-                .padding(.vertical, 20)
-                .background(.thinMaterial)
-                .cornerRadius(20)
-                .shadow(radius: 20)
+                .Background()
+                
                 Spacer()
                 HStack {
                     TextModifier(text: "Round \(round)")
