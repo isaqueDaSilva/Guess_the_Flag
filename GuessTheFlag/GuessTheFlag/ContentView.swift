@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct TextModifier: View {
+struct BodyText: View {
     var text: String
     
     var body: some View {
@@ -67,7 +67,7 @@ struct ContentView: View {
                     .font(.largeTitle.bold())
                 Spacer()
                 VStack(spacing: 20){
-                    TextModifier(text: "What's the Flag of \(countries[correctAnswer])?")
+                    BodyText(text: "What's the Flag of \(countries[correctAnswer])?")
                     ForEach(0..<3) { number in
                         Button(action: {
                             showingScore = true
@@ -81,9 +81,9 @@ struct ContentView: View {
                 
                 Spacer()
                 HStack {
-                    TextModifier(text: "Round \(round)")
+                    BodyText(text: "Round \(round)")
                     Spacer()
-                    TextModifier(text: "Score: \(scoreNumber)")
+                    BodyText(text: "Score: \(scoreNumber)")
                 } .padding()
                 Spacer()
             }.padding()
