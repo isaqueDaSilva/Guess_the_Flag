@@ -86,10 +86,10 @@ struct ContentView: View {
                     ForEach(0..<3) { number in
                         Button(action: {
                             withAnimation(.interpolatingSpring(stiffness: 3, damping: 1)) {
+                                guessSelect = number
                                 degress[number] += 360
                                 showingScore = true
                                 flagTapped(number)
-                                guessSelect = number
                             }
                         }, label: {
                             FlagImage(image: countries[number])
@@ -127,14 +127,14 @@ struct ContentView: View {
     
     func flagTapped(_ number: Int) {
         if round < 10 {
-            if number == correctAnswer {
-                
-                for guess in 0...2 {
-                    if guess != guessSelect {
-                        opacity[guess] = 0.25
-                    }
+            for guess in 0...2 {
+                if guess != guessSelect {
+                    opacity[guess] = 0.25
+                    degress[guess] = -180
                 }
-                
+            }
+            
+            if number == correctAnswer {
                 scoreNumber += 5
                 scoreTitle = "Correct"
                 correctionMessage = "Your Score is \(scoreNumber)"
