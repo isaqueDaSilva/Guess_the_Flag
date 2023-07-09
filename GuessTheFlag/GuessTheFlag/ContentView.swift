@@ -62,6 +62,9 @@ struct ContentView: View {
     @State private var correctionMessage = ""
     @State private var scoreNumber = 0
     @State private var round = 1
+    @State private var degress: [Double] = [0, 0, 0]
+    @State private var guessSelect = 0
+    @State private var opacity: [Double] = [1, 1, 1]
 
     @State private var countries = ["Estonia", "France", "Germany", "Ireland", "Italy", "Monaco", "Nigeria", "Poland", "Russia", "Spain", "UK", "US"].shuffled()
     @State private var correctAnswer = Int.random(in: 0...2)
@@ -82,10 +85,16 @@ struct ContentView: View {
                     BodyTextStyle(text: "What's the Flag of \(countries[correctAnswer])?")
                     ForEach(0..<3) { number in
                         Button(action: {
-                            showingScore = true
-                            flagTapped(number)
+                            withAnimation(.interpolatingSpring(stiffness: 3, damping: 1)) {
+                                degress[number] += 360
+                                showingScore = true
+                                flagTapped(number)
+                                guessSelect = number
+                            }
                         }, label: {
                             FlagImage(image: countries[number])
+                                .rotation3DEffect(.degrees(degress[number]), axis: (x: 0, y: 1, z: 0))
+                                .opacity(opacity[number])
                         })
                     }
                 }
@@ -119,6 +128,13 @@ struct ContentView: View {
     func flagTapped(_ number: Int) {
         if round < 10 {
             if number == correctAnswer {
+                
+                for guess in 0...2 {
+                    if guess != guessSelect {
+                        opacity[guess] = 0.25
+                    }
+                }
+                
                 scoreNumber += 5
                 scoreTitle = "Correct"
                 correctionMessage = "Your Score is \(scoreNumber)"
@@ -138,6 +154,8 @@ struct ContentView: View {
     func askTheQuestion() {
         countries.shuffle()
         correctAnswer = Int.random(in: 0...2)
+        degress = [0, 0, 0]
+        opacity = [1, 1, 1]
     }
 }
 
