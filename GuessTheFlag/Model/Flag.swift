@@ -6,3 +6,9 @@
 //
 
 import Foundation
+
+struct Flag: Identifiable {
+    let id = UUID()
+    let place: String
+    let labelDescription: String
+}

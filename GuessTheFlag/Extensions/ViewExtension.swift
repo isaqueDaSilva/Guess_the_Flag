@@ -8,7 +8,7 @@
 import SwiftUI
 
 extension View {
-    func Background() -> some View {
+    func background() -> some View {
         modifier(BackgroundModifier())
     }
 }

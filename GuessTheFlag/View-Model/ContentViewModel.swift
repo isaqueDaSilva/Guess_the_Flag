@@ -1,5 +1,5 @@
 //
-//  ContentView-ViewModel.swift
+//  ContentViewModel.swift
 //  GuessTheFlag
 //
 //  Created by Isaque da Silva on 26/09/23.
